@@ -25,8 +25,6 @@ python -m spacy download en_core_web_sm
 ## Core Components
 - `learner.py`: Core learning algorithms
 - `knowledge_base.py`: Knowledge storage and retrieval
-- `language_model.py`: Natural language processing
-- `interaction_manager.py`: Manage learning interactions
 
 ## Usage
 ```python
@@ -43,3 +41,4 @@ Contributions welcome! Please read the contributing guidelines before starting.
 
 ## License
 MIT License
+# machinelearning
