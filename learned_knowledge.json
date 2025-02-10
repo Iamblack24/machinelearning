@@ -1,0 +1,35 @@
+{
+  "math_fact_0": {
+    "value": "2 + 3 = 5",
+    "context": {
+      "type": "mathematical_fact",
+      "left_operand": 2,
+      "operator": "+",
+      "right_operand": 3,
+      "result": 5
+    },
+    "confidence": 0.5
+  },
+  "math_fact_1": {
+    "value": "4 * 6 = 24",
+    "context": {
+      "type": "mathematical_fact",
+      "left_operand": 4,
+      "operator": "*",
+      "right_operand": 6,
+      "result": 24
+    },
+    "confidence": 0.5
+  },
+  "math_fact_2": {
+    "value": "10 - 7 = 3",
+    "context": {
+      "type": "mathematical_fact",
+      "left_operand": 10,
+      "operator": "-",
+      "right_operand": 7,
+      "result": 3
+    },
+    "confidence": 0.5
+  }
+}

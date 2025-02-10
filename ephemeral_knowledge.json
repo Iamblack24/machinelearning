@@ -1,0 +1,519 @@
+{
+  "unknown_1738942255": {
+    "content": "",
+    "timestamp": "2025-02-08T21:32:21.746325",
+    "confidence": 0.8,
+    "metadata": {
+      "source": "user_input",
+      "type": "general",
+      "entities": []
+    }
+  },
+  "unknown_1738942257": {
+    "content": "",
+    "timestamp": "2025-02-08T21:32:21.753305",
+    "confidence": 0.8,
+    "metadata": {
+      "source": "user_input",
+      "type": "general",
+      "entities": []
+    }
+  },
+  "FC Lokomotiv 1929 Sofia_1738942258": {
+    "content": "",
+    "timestamp": "2025-02-08T21:32:21.774158",
+    "confidence": 0.8,
+    "metadata": {
+      "source": "user_input",
+      "type": "general",
+      "entities": []
+    }
+  },
+  "Nordic Light Open_1738943705": {
+    "content": "",
+    "timestamp": "2025-02-08T21:32:21.791666",
+    "confidence": 0.8,
+    "metadata": {
+      "source": "user_input",
+      "type": "general",
+      "entities": []
+    }
+  },
+  "unknown_1738943708": {
+    "content": "",
+    "timestamp": "2025-02-08T21:32:21.810514",
+    "confidence": 0.8,
+    "metadata": {
+      "source": "user_input",
+      "type": "general",
+      "entities": []
+    }
+  },
+  "AXL receptor tyrosine kinase_1738943710": {
+    "content": "",
+    "timestamp": "2025-02-08T21:32:21.831402",
+    "confidence": 0.8,
+    "metadata": {
+      "source": "user_input",
+      "type": "general",
+      "entities": []
+    }
+  },
+  "unknown_1738944464": {
+    "content": "",
+    "timestamp": "2025-02-08T21:32:21.861399",
+    "confidence": 0.8,
+    "metadata": {
+      "source": "user_input",
+      "type": "general",
+      "entities": []
+    }
+  },
+  "unknown_1738944466": {
+    "content": "",
+    "timestamp": "2025-02-08T21:32:21.877895",
+    "confidence": 0.8,
+    "metadata": {
+      "source": "user_input",
+      "type": "general",
+      "entities": []
+    }
+  },
+  "Rick Allen (organist)_1738944468": {
+    "content": "",
+    "timestamp": "2025-02-08T21:32:21.894851",
+    "confidence": 0.8,
+    "metadata": {
+      "source": "user_input",
+      "type": "general",
+      "entities": []
+    }
+  },
+  "France national football team results (1980\u20131999)_1738944781": {
+    "content": "",
+    "timestamp": "2025-02-08T21:32:21.911879",
+    "confidence": 0.8,
+    "metadata": {
+      "source": "user_input",
+      "type": "general",
+      "entities": []
+    }
+  },
+  "unknown_1738944786": {
+    "content": "",
+    "timestamp": "2025-02-08T21:32:21.930203",
+    "confidence": 0.8,
+    "metadata": {
+      "source": "user_input",
+      "type": "general",
+      "entities": []
+    }
+  },
+  "Cordera Eason_1738945105": {
+    "content": "",
+    "timestamp": "2025-02-08T21:32:21.951660",
+    "confidence": 0.8,
+    "metadata": {
+      "source": "user_input",
+      "type": "general",
+      "entities": []
+    }
+  },
+  "unknown_1738945119": {
+    "content": "",
+    "timestamp": "2025-02-08T21:32:21.970668",
+    "confidence": 0.8,
+    "metadata": {
+      "source": "user_input",
+      "type": "general",
+      "entities": []
+    }
+  },
+  "It's Your Turn, Laura Cadieux_1738945129": {
+    "content": "",
+    "timestamp": "2025-02-08T21:32:21.988621",
+    "confidence": 0.8,
+    "metadata": {
+      "source": "user_input",
+      "type": "general",
+      "entities": []
+    }
+  },
+  "Gopal Seth_1739029063": {
+    "content": "",
+    "timestamp": "2025-02-08T21:32:22.009580",
+    "confidence": 0.8,
+    "metadata": {
+      "source": "user_input",
+      "type": "general",
+      "entities": []
+    }
+  },
+  "unknown_1739029078": {
+    "content": "",
+    "timestamp": "2025-02-08T21:32:22.027651",
+    "confidence": 0.8,
+    "metadata": {
+      "source": "user_input",
+      "type": "general",
+      "entities": []
+    }
+  },
+  "Nick Jr. (Russian TV channel)_1739029080": {
+    "content": "",
+    "timestamp": "2025-02-08T21:32:22.044606",
+    "confidence": 0.8,
+    "metadata": {
+      "source": "user_input",
+      "type": "general",
+      "entities": []
+    }
+  },
+  "Rooi gevaar_1739029389": {
+    "content": "",
+    "timestamp": "2025-02-08T21:32:22.064308",
+    "confidence": 0.8,
+    "metadata": {
+      "source": "user_input",
+      "type": "general",
+      "entities": []
+    }
+  },
+  "unknown_1739029395": {
+    "content": "",
+    "timestamp": "2025-02-08T21:32:22.083680",
+    "confidence": 0.8,
+    "metadata": {
+      "source": "user_input",
+      "type": "general",
+      "entities": []
+    }
+  },
+  "Office of Response and Restoration_1739029397": {
+    "content": "",
+    "timestamp": "2025-02-08T21:32:22.102334",
+    "confidence": 0.8,
+    "metadata": {
+      "source": "user_input",
+      "type": "general",
+      "entities": []
+    }
+  },
+  "interaction": {
+    "content": "e = mc^2 explains the relationship between energy and mass",
+    "timestamp": "2025-02-08T21:32:28.510837",
+    "confidence": 0.8,
+    "metadata": {
+      "source": "user_input",
+      "type": "general",
+      "entities": []
+    }
+  },
+  "interaction_1739038788": {
+    "content": "",
+    "timestamp": "2025-02-08T21:32:22.141619",
+    "confidence": 0.8,
+    "metadata": {
+      "source": "user_input",
+      "type": "general",
+      "entities": []
+    }
+  },
+  "interaction_1739038790": {
+    "content": "",
+    "timestamp": "2025-02-08T21:32:22.160120",
+    "confidence": 0.8,
+    "metadata": {
+      "source": "user_input",
+      "type": "general",
+      "entities": []
+    }
+  },
+  "interaction_1739038791": {
+    "content": "",
+    "timestamp": "2025-02-08T21:32:22.177666",
+    "confidence": 0.8,
+    "metadata": {
+      "source": "user_input",
+      "type": "general",
+      "entities": []
+    }
+  },
+  "interaction_1739038792": {
+    "content": "",
+    "timestamp": "2025-02-08T21:32:22.196882",
+    "confidence": 0.8,
+    "metadata": {
+      "source": "user_input",
+      "type": "general",
+      "entities": []
+    }
+  },
+  "interaction_1739038793": {
+    "content": "",
+    "timestamp": "2025-02-08T21:32:22.219653",
+    "confidence": 0.8,
+    "metadata": {
+      "source": "user_input",
+      "type": "general",
+      "entities": []
+    }
+  },
+  "math_2_+_3": {
+    "content": "",
+    "timestamp": "2025-02-08T21:32:27.078608",
+    "confidence": 0.8,
+    "metadata": {
+      "source": "user_input",
+      "type": "mathematical_operation",
+      "entities": []
+    }
+  },
+  "math_pattern_+": {
+    "content": "",
+    "timestamp": "2025-02-08T21:32:27.096507",
+    "confidence": 0.8,
+    "metadata": {
+      "source": "user_input",
+      "type": "mathematical_pattern",
+      "entities": []
+    }
+  },
+  "interaction_1739038800": {
+    "content": "",
+    "timestamp": "2025-02-08T21:32:22.295387",
+    "confidence": 0.8,
+    "metadata": {
+      "source": "user_input",
+      "type": "general",
+      "entities": []
+    }
+  },
+  "interaction_1739039251": {
+    "content": "",
+    "timestamp": "2025-02-08T21:32:22.318344",
+    "confidence": 0.8,
+    "metadata": {
+      "source": "user_input",
+      "type": "general",
+      "entities": []
+    }
+  },
+  "interaction_1739039252": {
+    "content": "",
+    "timestamp": "2025-02-08T21:32:22.351294",
+    "confidence": 0.8,
+    "metadata": {
+      "source": "user_input",
+      "type": "general",
+      "entities": []
+    }
+  },
+  "interaction_1739039253": {
+    "content": "",
+    "timestamp": "2025-02-08T21:32:22.384963",
+    "confidence": 0.8,
+    "metadata": {
+      "source": "user_input",
+      "type": "general",
+      "entities": []
+    }
+  },
+  "interaction_1739039254": {
+    "content": "",
+    "timestamp": "2025-02-08T21:32:22.411618",
+    "confidence": 0.8,
+    "metadata": {
+      "source": "user_input",
+      "type": "general",
+      "entities": []
+    }
+  },
+  "interaction_1739039255": {
+    "content": "",
+    "timestamp": "2025-02-08T21:32:22.433537",
+    "confidence": 0.8,
+    "metadata": {
+      "source": "user_input",
+      "type": "general",
+      "entities": []
+    }
+  },
+  "interaction_1739039256": {
+    "content": "",
+    "timestamp": "2025-02-08T21:32:22.459468",
+    "confidence": 0.8,
+    "metadata": {
+      "source": "user_input",
+      "type": "general",
+      "entities": []
+    }
+  },
+  "interaction_1739039258": {
+    "content": "",
+    "timestamp": "2025-02-08T21:32:22.481046",
+    "confidence": 0.8,
+    "metadata": {
+      "source": "user_input",
+      "type": "general",
+      "entities": []
+    }
+  },
+  "math_4_*_6": {
+    "content": "",
+    "timestamp": "2025-02-08T21:32:27.131451",
+    "confidence": 0.8,
+    "metadata": {
+      "source": "user_input",
+      "type": "mathematical_operation",
+      "entities": []
+    }
+  },
+  "math_pattern_*": {
+    "content": "",
+    "timestamp": "2025-02-08T21:32:27.153080",
+    "confidence": 0.8,
+    "metadata": {
+      "source": "user_input",
+      "type": "mathematical_pattern",
+      "entities": []
+    }
+  },
+  "math_10_-_7": {
+    "content": "",
+    "timestamp": "2025-02-08T21:32:25.430764",
+    "confidence": 0.8,
+    "metadata": {
+      "source": "user_input",
+      "type": "mathematical_operation",
+      "entities": []
+    }
+  },
+  "math_pattern_-": {
+    "content": "",
+    "timestamp": "2025-02-08T21:32:25.465008",
+    "confidence": 0.8,
+    "metadata": {
+      "source": "user_input",
+      "type": "mathematical_pattern",
+      "entities": []
+    }
+  },
+  "math_15_/_3": {
+    "content": "",
+    "timestamp": "2025-02-08T21:32:25.652299",
+    "confidence": 0.8,
+    "metadata": {
+      "source": "user_input",
+      "type": "mathematical_operation",
+      "entities": []
+    }
+  },
+  "math_pattern_/": {
+    "content": "",
+    "timestamp": "2025-02-08T21:32:25.763945",
+    "confidence": 0.8,
+    "metadata": {
+      "source": "user_input",
+      "type": "mathematical_pattern",
+      "entities": []
+    }
+  },
+  "math_10_/_0": {
+    "content": "",
+    "timestamp": "2025-02-08T21:32:25.737444",
+    "confidence": 0.8,
+    "metadata": {
+      "source": "user_input",
+      "type": "mathematical_operation",
+      "entities": []
+    }
+  },
+  "interaction_1739039265": {
+    "content": "",
+    "timestamp": "2025-02-08T21:32:22.690081",
+    "confidence": 0.8,
+    "metadata": {
+      "source": "user_input",
+      "type": "general",
+      "entities": []
+    }
+  },
+  "interaction_1739039533": {
+    "content": "",
+    "timestamp": "2025-02-08T21:32:22.715762",
+    "confidence": 0.8,
+    "metadata": {
+      "source": "user_input",
+      "type": "general",
+      "entities": []
+    }
+  },
+  "interaction_1739039535": {
+    "content": "",
+    "timestamp": "2025-02-08T21:32:22.736395",
+    "confidence": 0.8,
+    "metadata": {
+      "source": "user_input",
+      "type": "general",
+      "entities": []
+    }
+  },
+  "interaction_1739039536": {
+    "content": "",
+    "timestamp": "2025-02-08T21:32:22.761957",
+    "confidence": 0.8,
+    "metadata": {
+      "source": "user_input",
+      "type": "general",
+      "entities": []
+    }
+  },
+  "interaction_1739039537": {
+    "content": "",
+    "timestamp": "2025-02-08T21:32:22.782332",
+    "confidence": 0.8,
+    "metadata": {
+      "source": "user_input",
+      "type": "general",
+      "entities": []
+    }
+  },
+  "interaction_1739039538": {
+    "content": "",
+    "timestamp": "2025-02-08T21:32:22.804986",
+    "confidence": 0.8,
+    "metadata": {
+      "source": "user_input",
+      "type": "general",
+      "entities": []
+    }
+  },
+  "interaction_1739039540": {
+    "content": "",
+    "timestamp": "2025-02-08T21:32:22.827491",
+    "confidence": 0.8,
+    "metadata": {
+      "source": "user_input",
+      "type": "general",
+      "entities": []
+    }
+  },
+  "interaction_1739039548": {
+    "content": {
+      "input": "e = mc^2 explains the relationship between energy and mass",
+      "result": {
+        "status": "processed",
+        "type": "linguistic_input",
+        "entities": []
+      }
+    },
+    "timestamp": "2025-02-08T21:32:28.531300",
+    "confidence": 0.8,
+    "metadata": {
+      "source": "user_interaction",
+      "type": "general_knowledge",
+      "entities": []
+    }
+  }
+}
