@@ -12,15 +12,87 @@ from sklearn.metrics.pairwise import cosine_similarity
 from .knowledge_base import KnowledgeBase
 from .autonomous_learner import AutonomousLearningAgent
 from .critical_reasoning import CriticalReasoningEngine
+from transformers import AutoModelForCausalLM, AutoTokenizer, pipeline
+
+from typing import Dict, Any
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+
+class FoundationalTransformer(nn.Module):
+    def __init__(self, 
+                 vocab_size: int,
+                 d_model: int = 512,
+                 nhead: int = 8,
+                 num_layers: int = 6,
+                 dim_feedforward: int = 2048,
+                 dropout: float = 0.1):
+        super().__init__()
+        
+        self.embedding = nn.Embedding(vocab_size, d_model)
+        self.pos_encoder = PositionalEncoding(d_model, dropout)
+        
+        encoder_layers = nn.TransformerEncoderLayer(
+            d_model=d_model,
+            nhead=nhead,
+            dim_feedforward=dim_feedforward,
+            dropout=dropout,
+            batch_first=True
+        )
+        self.transformer_encoder = nn.TransformerEncoder(encoder_layers, num_layers)
+        self.d_model = d_model
+        self.linear_out = nn.Linear(d_model, vocab_size)
+
+    def forward(self, src, src_mask=None):
+        src = self.embedding(src) * math.sqrt(self.d_model)
+        src = self.pos_encoder(src)
+        output = self.transformer_encoder(src, src_mask)
+        output = self.linear_out(output)
+        return output
 
 class SelfLearningAgent:
-    def __init__(self, autonomous_learning: bool = True, learning_interval: int = 300):
-        """
-        Initialize the SelfLearningAgent with advanced learning capabilities.
-
-        :param autonomous_learning: Enable autonomous background learning
-        :param learning_interval: Interval between learning cycles in seconds
-        """
+    def __init__(self, vocab_size=50000, d_model=512):
+        # Initialize our custom foundational model
+        self.model = FoundationalTransformer(
+            vocab_size=vocab_size,
+            d_model=d_model
+        )
+        
+        # Initialize tokenizer and vocabulary
+        self.tokenizer = CustomTokenizer(vocab_size)
+        
+        # Knowledge management
+        self.knowledge_base = KnowledgeBase()
+        self.critical_reasoning = CriticalReasoningEngine(self.knowledge_base)
+        
+        # Training configuration
+        self.optimizer = torch.optim.Adam(self.model.parameters())
+        self.criterion = nn.CrossEntropyLoss()
+        
+        # Replace spaCy with distilled model
+        self.nlp = pipeline(
+            "text-generation",
+            model="microsoft/phi-2",
+            torch_dtype="auto",
+            device_map="auto" if torch.cuda.is_available() else "cpu"
+        )
+        
+        # Add memory-efficient knowledge graph
+        self.knowledge_graph = KnowledgeGraph(
+            embedding_size=128,  # Reduced from 512
+            sparse_embeddings=True
+        )
+        
+        # Add model quantization
+        self.model = AutoModelForCausalLM.from_pretrained(
+            "TinyLlama/TinyLlama-1.1B-Chat-v1.0",
+            load_in_4bit=True,  # For 4-bit quantization
+            device_map="auto"
+        )
+        self.tokenizer = AutoTokenizer.from_pretrained(
+            "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
+        )
+        
         # Initialize core components
         self.knowledge_base = KnowledgeBase()
         self.autonomous_learner = AutonomousLearningAgent(learning_interval)
@@ -380,3 +452,33 @@ class SelfLearningAgent:
             )
         
         self.knowledge_base.import_knowledge(filepath)
+
+
+class SelfLearningAgent:
+    def __init__(self):
+        # FlashAttention configuration for CPU
+        self.model = AutoModelForCausalLM.from_pretrained(
+            "microsoft/phi-3-mini-4k-instruct",
+            attn_implementation="flash_attention_2",
+            torch_dtype=torch.float16
+        )
+        
+        # Dynamic resource monitor
+        self.resource_monitor = ResourceMonitor(
+            memory_threshold=0.8,  # 80% RAM usage
+            swap_penalty=0.1
+        )
+
+    def generate(self, prompt):
+        # Context-aware generation budgeting
+        with self.resource_monitor:
+            return super().generate(prompt)
+        
+        # Pre-process with active tools
+        if math_pattern.match(query):
+            return self.active_tools['math'].execute(query)
+        if code_pattern.match(query):
+            return self.active_tools['code'].interpret(query)
+            
+        # Fallback to neural generation
+        return self.generate(query)

@@ -203,6 +203,161 @@ class TestSelfLearningAgent(unittest.TestCase):
         result_empty = self.agent.interact("")
         self.assertIsNotNone(result_empty)
 
+    # ---------------- Code Generation Capabilities ----------------
+    def test_code_generation(self):
+        """Test code generation capabilities"""
+        # Test algorithm generation
+        result = self.agent.interact("Generate a function to find minimum in array")
+        self.assertIsNotNone(result)
+        self.assertEqual(result.get('type'), 'code_generation')
+        code_details = result.get('details', {})
+        self.assertIn('code', code_details)
+        self.assertIn('language', code_details)
+        
+        # Test frontend code generation
+        result = self.agent.interact("Generate HTML/CSS to center a div")
+        self.assertIsNotNone(result)
+        self.assertEqual(result.get('type'), 'code_generation')
+        self.assertIn('html', result.get('details', {}).get('code', '').lower())
+        self.assertIn('css', result.get('details', {}).get('code', '').lower())
+
+    def test_code_analysis(self):
+        """Test code analysis capabilities"""
+        test_code = """
+def bubble_sort(arr):
+    n = len(arr)
+    for i in range(n):
+        for j in range(0, n-i-1):
+            if arr[j] > arr[j+1]:
+                arr[j], arr[j+1] = arr[j+1], arr[j]
+    return arr
+        """
+        result = self.agent.interact(f"Analyze this code: {test_code}")
+        analysis = result.get('details', {}).get('analysis', {})
+        self.assertIn('complexity', analysis)
+        self.assertIn('security_score', analysis)
+        self.assertIn('memory_estimate', analysis)
+
+    # ---------------- Advanced Reasoning Capabilities ----------------
+    def test_causal_reasoning(self):
+        """Test causal reasoning capabilities"""
+        # Learn causal relationships
+        self.agent.interact("Increased CO2 leads to higher global temperatures")
+        self.agent.interact("Higher temperatures cause ice caps to melt")
+        
+        # Test causal inference
+        result = self.agent.query("What happens to ice caps when CO2 increases?")
+        if result:
+            self.assertIn('causal_chain', result[0].get('details', {}))
+            self.assertIn('confidence', result[0].get('base_result', {}))
+
+    def test_symbolic_reasoning(self):
+        """Test symbolic reasoning with mathematical expressions"""
+        # Test equation manipulation
+        result = self.agent.interact("Solve x + 5 = 10 for x")
+        self.assertEqual(result.get('type'), 'mathematical_solution')
+        solution = result.get('details', {}).get('solution')
+        self.assertIsNotNone(solution)
+        self.assertEqual(solution.get('value'), 5)
+
+    # ---------------- Knowledge Integration ----------------
+    def test_cross_domain_learning(self):
+        """Test integration of knowledge across different domains"""
+        # Learn from multiple domains
+        self.agent.interact("Python uses indentation for code blocks")
+        self.agent.interact("Code readability affects maintenance costs")
+        self.agent.interact("Software maintenance is 80% of total cost")
+        
+        # Test cross-domain query
+        result = self.agent.query("How does Python's indentation affect software costs?")
+        insights = result[0].get('critical_insights', []) if result else []
+        self.assertTrue(len(insights) > 0)
+        self.assertNotEqual(insights[0].get('message', ''), 'No related knowledge found in the graph.')
+
+    # ---------------- Language Understanding & Generation Capabilities ----------------
+    def test_language_understanding(self):
+        """Test natural language understanding capabilities"""
+        # Test entity recognition
+        result = self.agent.interact("The Python programming language was created by Guido van Rossum")
+        self.assertEqual(result.get('type'), 'general_knowledge')
+        entities = result.get('details', {}).get('entities', [])
+        self.assertTrue(any(e.get('text') == 'Python' for e in entities))
+        self.assertTrue(any(e.get('text') == 'Guido van Rossum' for e in entities))
+
+    def test_content_generation(self):
+        """Test content generation capabilities"""
+        # Test article generation
+        prompt = "Generate a short article about artificial intelligence"
+        result = self.agent.interact(prompt)
+        content = result.get('details', {}).get('generated_content', '')
+        self.assertIsNotNone(content)
+        self.assertGreater(len(content), 50)  # Minimum content length
+
+        # Test summary generation
+        text = """Artificial intelligence has transformed various industries.
+                 It enables automation, enhances decision-making, and creates
+                 new possibilities for innovation."""
+        result = self.agent.interact(f"Summarize this text: {text}")
+        summary = result.get('details', {}).get('summary', '')
+        self.assertIsNotNone(summary)
+        self.assertLess(len(summary), len(text))
+
+    def test_language_translation(self):
+        """Test language translation capabilities"""
+        # Test basic translation
+        text = "Hello, how are you?"
+        result = self.agent.interact(f"Translate to Spanish: {text}")
+        translation = result.get('details', {}).get('translation', '')
+        self.assertIsNotNone(translation)
+        self.assertIn('¿', translation)  # Spanish question mark
+
+        # Test language detection
+        result = self.agent.interact("Detect language: Bonjour le monde")
+        detected = result.get('details', {}).get('detected_language', '')
+        self.assertEqual(detected.lower(), 'french')
+
+    def test_conversation_handling(self):
+        """Test conversational capabilities"""
+        # Test context maintenance
+        result1 = self.agent.interact("My name is Alice")
+        self.assertEqual(result1.get('type'), 'conversation')
+        
+        result2 = self.agent.interact("What's my name?")
+        context = result2.get('details', {}).get('context', {})
+        self.assertIn('Alice', str(context))
+
+        # Test response coherence
+        result3 = self.agent.interact("Do you remember what we discussed?")
+        self.assertIn('conversation', result3.get('type', ''))
+        self.assertTrue(result3.get('details', {}).get('context_maintained', False))
+
+    def test_sentiment_analysis(self):
+        """Test sentiment analysis capabilities"""
+        # Test positive sentiment
+        result = self.agent.interact("Analyze sentiment: I love this amazing product!")
+        sentiment = result.get('details', {}).get('sentiment', {})
+        self.assertGreater(sentiment.get('positive', 0), 0.5)
+
+        # Test negative sentiment
+        result = self.agent.interact("Analyze sentiment: This is terrible and disappointing.")
+        sentiment = result.get('details', {}).get('sentiment', {})
+        self.assertGreater(sentiment.get('negative', 0), 0.5)
+
+    def test_language_style_transfer(self):
+        """Test language style transfer capabilities"""
+        # Test formal style
+        text = "Hey, what's up?"
+        result = self.agent.interact(f"Convert to formal style: {text}")
+        formal = result.get('details', {}).get('formal_text', '')
+        self.assertIsNotNone(formal)
+        self.assertNotEqual(text.lower(), formal.lower())
+
+        # Test technical style
+        result = self.agent.interact("Convert to technical: The computer isn't working")
+        technical = result.get('details', {}).get('technical_text', '')
+        self.assertIsNotNone(technical)
+        self.assertIn('system', technical.lower())
+
 def main():
     unittest.main()
 

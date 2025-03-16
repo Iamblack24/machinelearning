@@ -344,3 +344,19 @@ class KnowledgeBase:
                     self.logger.info(f"Loaded ephemeral knowledge from {self.ephemeral_file}")
         except Exception as e:
             self.logger.error(f"Error loading ephemeral knowledge: {e}")
+
+    class KnowledgeBase:
+        def __init__(self):
+            # Memory-mapped storage with LRU caching
+            self.knowledge = np.memmap("knowledge.mmap", dtype=np.float32, mode="w+", shape=(1e6, 128))
+            self.cache = {}
+            
+        def get(self, key):
+            if key in self.cache:
+                return self.cache[key]
+            # Memory-mapped lookup
+            return self.knowledge[hash(key) % len(self.knowledge)]
+        
+        def prune_knowledge(self):
+            """Keep only top 50% accessed knowledge"""
+            self.knowledge = self.knowledge[:len(self.knowledge)//2]

@@ -76,339 +76,129 @@ class PersistentLearningAgent:
 
 class AutonomousLearningInterface:
     def __init__(self):
-        """
-        Initialize the Autonomous Learning Interface
-        """
-        # Initialize persistent knowledge agent
+        """Initialize the Autonomous Learning Interface with custom foundational model"""
         self.persistent_agent = PersistentLearningAgent()
-
-        # Initialize learning agents
-        self.self_learning_agent = SelfLearningAgent(autonomous_learning=True)
-        self.autonomous_learner = AutonomousLearningAgent(
-            learning_interval=600  # 10-minute learning cycle
+        
+        # Enhanced training configuration
+        self.training_config = {
+            'batch_size': 32,
+            'epochs': 10,
+            'learning_rate': 1e-4,
+            'warmup_steps': 4000,
+            'conversation_style': {
+                'humor_level': 0.7,
+                'formality': 0.5,
+                'creativity': 0.8
+            },
+            'context_window': 1024,
+            'attention_layers': 12
+        }
+        
+        # Initialize specialized processors
+        self.conversation_processor = ConversationProcessor(
+            style_config=self.training_config['conversation_style']
+        )
+        self.context_manager = ContextManager(
+            window_size=self.training_config['context_window']
+        )
+        
+        # Initialize learning agents with enhanced capabilities
+        self.self_learning_agent = SelfLearningAgent(
+            vocab_size=50000,
+            d_model=512,
+            conversation_processor=self.conversation_processor,
+            context_manager=self.context_manager
         )
 
-        # Configure exit handling
-        signal.signal(signal.SIGINT, self._graceful_exit)
-        signal.signal(signal.SIGTERM, self._graceful_exit)
-        atexit.register(self._cleanup)
-
-        # Configure autonomous learning callback
-        def on_learning_complete(learned_knowledge):
-            logger.info("Autonomous learning cycle completed")
-            logger.info(f"Acquired {len(learned_knowledge)} new knowledge items")
-            
-            # Save autonomous learning knowledge
-            for topic, knowledge in learned_knowledge.items():
-                self.persistent_agent.add_knowledge(topic, knowledge)
-            
-            logger.info("Autonomous knowledge integrated into persistent storage")
-
-        self.autonomous_learner.set_learning_callback(on_learning_complete)
-        # Ensure self-learning agent and persistent agent are set up for async operations
-        # (if needed, assign them here)
-
-    def _graceful_exit(self, signum=None, frame=None):
-        """
-        Handle graceful exit with cleanup
+    async def train_model(self, training_data: List[str]):
+        """Enhanced training with conversation and humor understanding"""
+        # Prepare specialized training datasets
+        conversation_pairs = self._prepare_conversation_pairs(training_data)
+        humor_examples = self._extract_humor_patterns(training_data)
         
-        :param signum: Signal number
-        :param frame: Current stack frame
-        """
-        print("\n🔄 Initiating graceful shutdown...")
-        self._cleanup()
-        sys.exit(0)
-
-    def _cleanup(self):
-        """
-        Perform cleanup operations
-        """
-        try:
-            # Stop background learning
-            if hasattr(self, 'autonomous_learner'):
-                self.autonomous_learner.stop_learning()
-            
-            # Save final knowledge state
-            self.persistent_agent.save_knowledge()
-            
-            print("✅ Cleanup completed successfully.")
-        except Exception as e:
-            logger.error(f"Cleanup error: {e}")
-
-    def start_background_learning(self):
-        """
-        Start background autonomous learning
-        """
-        self.autonomous_learner.start_learning()
-        logger.info("Background learning started")
-
-    async def query_agent(self, query: str) -> List[Dict[str, Any]]:
-        """
-        Asynchronously query the self-learning agent by combining persistent and agent knowledge.
+        # Multi-task training
+        tasks = [
+            self._train_conversation(conversation_pairs),
+            self._train_humor_understanding(humor_examples),
+            self._train_context_awareness(training_data)
+        ]
         
-        :param query: User query
-        :return: List of query results
-        """
-        try:
-            # First, asynchronously search persistent knowledge.
-            persistent_results = await self._search_persistent_knowledge(query)
-            
-            # Wrap the synchronous knowledge base query in a thread
-            agent_results = await asyncio.to_thread(self.self_learning_agent.knowledge_base.query, query)
-            
-            # Combine and return results.
-            return persistent_results + agent_results
-        except Exception as e:
-            logger.error(f"Query error: {e}")
-            return [{'error': str(e)}]
+        await asyncio.gather(*tasks)
 
-    async def _search_persistent_knowledge(self, query: str) -> List[Dict[str, Any]]:
-        """
-        Asynchronously search through persistent knowledge.
-        
-        :param query: Query string to search for.
-        :return: List of matching persistent knowledge entries.
-        """
-        results = []
-        # Reload persistent knowledge asynchronously via thread
-        self.persistent_agent.knowledge = await asyncio.to_thread(self.persistent_agent._load_knowledge)
-        for key, item in self.persistent_agent.knowledge.items():
-            content_raw = item.get('content', '')
-            if isinstance(content_raw, dict):
-                content = (
-                    content_raw.get('text') or 
-                    content_raw.get('summary') or 
-                    content_raw.get('topic') or 
-                    str(content_raw)
+    async def _train_conversation(self, conversation_pairs: List[Tuple[str, str]]):
+        """Train conversation capabilities"""
+        for epoch in range(self.training_config['epochs']):
+            for context, response in conversation_pairs:
+                # Train response generation
+                loss = await self.self_learning_agent.train_conversation(
+                    context, 
+                    response,
+                    style_config=self.training_config['conversation_style']
                 )
-            else:
-                content = str(content_raw)
-            if query.lower() in content.lower():
-                results.append({
-                    'source': 'persistent_knowledge',
-                    'key': key,
-                    'content': content,
-                    'confidence': item.get('confidence', 0.8),
-                    'metadata': item.get('metadata', {})
-                })
-        return results
+                logger.info(f"Conversation Training - Epoch {epoch}, Loss: {loss:.4f}")
+
+    async def _train_humor_understanding(self, humor_examples: List[Dict[str, Any]]):
+        """Train humor recognition and generation"""
+        for epoch in range(self.training_config['epochs']):
+            for example in humor_examples:
+                # Train humor patterns
+                loss = await self.self_learning_agent.train_humor(
+                    example['setup'],
+                    example['punchline'],
+                    example['humor_type']
+                )
+                logger.info(f"Humor Training - Epoch {epoch}, Loss: {loss:.4f}")
+
+    def _prepare_conversation_pairs(self, data: List[str]) -> List[Tuple[str, str]]:
+        """Prepare conversation pairs for training"""
+        pairs = []
+        for i in range(0, len(data)-1, 2):
+            context = data[i]
+            response = data[i+1]
+            pairs.append((context, response))
+        return pairs
+
+    def _extract_humor_patterns(self, data: List[str]) -> List[Dict[str, Any]]:
+        """Extract humor patterns from training data"""
+        patterns = []
+        for text in data:
+            if self.conversation_processor.is_humorous(text):
+                humor_components = self.conversation_processor.analyze_humor(text)
+                patterns.append(humor_components)
+        return patterns
 
     async def interact_with_agent(self, interaction: str) -> Dict[str, Any]:
-        """
-        Asynchronously process an interaction.
-        (Adapt further as needed using async wrappers for blocking operations.)
-        """
-        # Example: wrap the entire processing in a thread if it calls too many sync functions.
-        result = await asyncio.to_thread(self._sync_interact, interaction)
-        return result
-
-    def _sync_interact(self, interaction: str) -> Dict[str, Any]:
-        """
-        Synchronous fallback method to process interaction.
-        (This can be gradually converted into fully async code.)
-        """
+        """Enhanced interaction with humor and personality"""
         try:
-            # Process the interaction
-            doc = self.self_learning_agent.nlp(interaction)
+            # Process interaction with context
+            context = self.context_manager.get_current_context()
             
-            # Prepare knowledge entry
-            knowledge_entry = {
-                'content': interaction,
-                'entities': [{'text': ent.text, 'label': ent.label_} for ent in doc.ents],
-                'source': 'user_interaction',
-                'confidence': 0.8,
-                'metadata': {'source': 'user_interaction'}
-            }
+            # Analyze interaction style
+            style_analysis = self.conversation_processor.analyze_style(interaction)
             
-            # Store in persistent knowledge
-            key = f"interaction_{int(time.time())}"
-            self.persistent_agent.add_knowledge(key, knowledge_entry)
+            # Generate appropriate response
+            response = await self.self_learning_agent.generate_response(
+                interaction,
+                context=context,
+                style=style_analysis
+            )
+            
+            # Add humor if appropriate
+            if self.conversation_processor.should_add_humor(interaction, response):
+                response = self.conversation_processor.enhance_with_humor(response)
+            
+            # Update context
+            self.context_manager.update_context(interaction, response)
             
             return {
                 'status': 'success',
-                'message': f"Learned: {interaction}",
-                'knowledge': knowledge_entry
+                'message': response,
+                'style': style_analysis,
+                'humor_level': self.conversation_processor.measure_humor(response)
             }
             
         except Exception as e:
             logger.error(f"Interaction error: {e}")
             return {'error': str(e)}
 
-    def conversational_teach(self, statement: str):
-        """
-        Enable direct conversational knowledge teaching.
-        
-        :param statement: Knowledge statement to learn
-        """
-        try:
-            # Extract key information using NLP
-            doc = self.self_learning_agent.nlp(statement)
-            
-            # Identify entities and their types
-            entities = [{'text': ent.text, 'label': ent.label_} for ent in doc.ents]
-            
-            # Prepare knowledge entry
-            knowledge_entry = {
-                'content': statement,
-                'entities': entities,
-                'source': 'conversation',
-                'confidence': 0.8,
-                'metadata': {'source': 'conversation'}
-            }
-            
-            # Validate and store knowledge
-            if self.self_learning_agent.autonomous_learner._validate_knowledge(knowledge_entry):
-                key = f"conversation_{int(time.time())}"
-                self.self_learning_agent.autonomous_learner._persist_learned_knowledge(knowledge_entry)
-                print(f"🧠 Learned: {statement}")
-            else:
-                print("🤔 Similar knowledge already exists.")
-        
-        except Exception as e:
-            print(f"❌ Learning error: {e}")
-
-    def interactive_cli(self):
-        """
-        Enhanced interactive CLI with conversational learning.
-        """
-        print("🌟 Conversational AI Learning Interface 🧠")
-        print("Commands: learn, query, teach, context, exit")
-        
-        while True:
-            try:
-                user_input = input("\n🗣️ You: ").strip()
-                
-                if user_input.lower() == 'exit':
-                    break
-                elif user_input.lower() == 'learn':
-                    self.self_learning_agent.learn()
-                elif user_input.lower() == 'query':
-                    query = input("📝 Enter query: ")
-                    results = self.self_learning_agent.knowledge_base.query(query)
-                    self.display_query_results(results)
-                elif user_input.lower() == 'teach':
-                    statement = input("📚 Enter knowledge to teach: ")
-                    self.conversational_teach(statement)
-                elif user_input.lower() == 'context':
-                    context = input("🌐 Set conversational context: ")
-                    print(f"Context set: {context}")
-                else:
-                    if len(user_input.split()) > 3:
-                        self.conversational_teach(user_input)
-                    else:
-                        results = self.self_learning_agent.knowledge_base.query(user_input)
-                        self.display_query_results(results)
-            
-            except KeyboardInterrupt:
-                print("\n👋 Exiting...")
-                break
-            except Exception as e:
-                print(f"❌ Error: {e}")
-
-    def display_query_results(self, results: List[Dict[str, Any]]):
-        """
-        Display query results with improved mathematical result handling.
-        """
-        print("\n🔍 Query Results:")
-        if not results:
-            print("No matching results found.")
-            return
-
-        for result in results:
-            # Handle mathematical computation results
-            if result.get('metadata', {}).get('type') == 'mathematical_computation':
-                print(f"📐 Maths results {result['content']}")
-                print(f"confidence: {result.get('confidence', 1.0):.2f}")
-                continue
-
-            # Handle other types of results
-            content = result.get('content', '')
-            confidence = result.get('confidence', 0.0)
-            
-            if isinstance(content, dict):
-                content = content.get('text', str(content))
-            
-            print(f"\nConfidence: {confidence:.2f}")
-            print(f"Content: {content}")
-
-            # Display metadata if available
-            metadata = result.get('metadata', {})
-            if metadata:
-                print("Metadata:")
-                for key, value in metadata.items():
-                    print(f"  {key}: {value}")
-
-    async def process_command(self, command: str):
-        """Process user commands with improved result display."""
-        parts = command.split(maxsplit=1)
-        cmd = parts[0].lower()
-        arg = parts[1] if len(parts) > 1 else ""
-
-        if cmd == "query":
-            results = await self.query_agent(arg)
-            self.display_query_results(results)
-        # ... rest of command processing ...
-
-    async def run_interactive_cli(self):
-        while True:
-            try:
-                user_input = input("\n🌟 Enter command: ").strip()
-                if user_input.lower().startswith('query'):
-                    await self.process_command(user_input)  # Properly await the coroutine
-                elif user_input.lower() == 'exit':
-                    break
-                elif user_input.lower() == 'learn':
-                    self.start_background_learning()
-                    print("🎓 Started background learning")
-                elif user_input.lower().startswith('interact'):
-                    message = user_input[8:].strip()
-                    if message:
-                        result = await self.interact_with_agent(message)
-                        print(f"🤖 {result.get('message', 'Processed interaction')}")
-                    else:
-                        print("❌ Please provide a message to interact with")
-                elif user_input.lower().startswith('explore'):
-                    domain = user_input[8:].strip()
-                    if domain:
-                        print(f"🌍 Exploring domain: {domain}")
-                        insights = self.autonomous_learner._generate_synthetic_knowledge()
-                        print("\n🔍 Generated Insights:")
-                        for key, insight in insights.items():
-                            print(f"- {insight['text']} (Confidence: {insight.get('confidence', 0.5)})")
-                elif user_input.lower() == 'show knowledge':
-                    print("📖 Current Knowledge Base:")
-                    knowledge = self.self_learning_agent.knowledge_base.knowledge
-                    for key, entry in knowledge.items():
-                        print(f"🔑 {key}: {entry.get('content', 'No details')}")
-                elif user_input.lower() == 'help':
-                    print("""
-                          🤖 Autonomous Learning AI Interface 🧠
-    Commands:
-      'learn': Start autonomous background learning
-      'query [topic]': Search knowledge base
-      'interact [message]': Teach the AI
-      'explore [domain]': Generate insights about a topic
-      'show knowledge': Display current knowledge
-      'exit': Quit the interface
-      'help': Show this help message
-                    """)
-                else:
-                    print("❓ Unknown command. Type 'help' for available commands")
-            except KeyboardInterrupt:
-                print("\n👋 Exiting...")
-                break
-            except Exception as e:
-                print(f"❌ Error: {e}")
-
-def main():
-    """
-    Main entry point for the Autonomous Learning Interface
-    """
-    print("🤖 Autonomous Learning AI Interface 🧠")
-    print("Type 'help' for commands, 'exit' to quit\n")
-    
-    interface = AutonomousLearningInterface()
-    asyncio.run(interface.run_interactive_cli())
-
-if __name__ == "__main__":
-    main()
+    # ... rest of the existing code ...
