@@ -1,5 +1,10 @@
-from .learner import SelfLearningAgent
-from .knowledge_base import KnowledgeBase
-from .autonomous_learner import AutonomousLearningAgent
+from .learner import SelfLearningAgent, KnowledgeBase, CriticalReasoningEngine
 
-__all__ = ['SelfLearningAgent', 'KnowledgeBase', 'AutonomousLearningAgent']
+# For backward compatibility
+try:
+    from .autonomous_learner import AutonomousLearningAgent
+except ImportError:
+    # Fallback if external dependencies are not available
+    AutonomousLearningAgent = None
+
+__all__ = ['SelfLearningAgent', 'KnowledgeBase', 'CriticalReasoningEngine', 'AutonomousLearningAgent']
